@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { ArrowUpDown, Search } from 'lucide-react'
+import { ArrowUpDown, Search, Info, X } from 'lucide-react'
 import './App.css'
 
 interface Team {
@@ -24,6 +24,7 @@ function App() {
   const [sortBy, setSortBy] = useState("points")
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc")
   const [searchTerm, setSearchTerm] = useState("")
+  const [selectedTeam, setSelectedTeam] = useState<Team | null>(null)
 
   // Cargar datos de equipos
   useEffect(() => {
@@ -68,6 +69,11 @@ function App() {
       setSortBy(column)
       setSortOrder("desc")
     }
+  }
+
+  // Mostrar detalles del equipo
+  const showTeamDetails = (team: Team) => {
+    setSelectedTeam(team)
   }
 
   return (
@@ -163,6 +169,9 @@ function App() {
                     >
                       Derrotas {sortBy === "losses" && (sortOrder === "asc" ? "↑" : "↓")}
                     </th>
+                    <th className="py-3 px-4 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Detalles
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
@@ -193,6 +202,14 @@ function App() {
                       <td className="py-4 px-4 whitespace-nowrap text-sm text-gray-500 text-center">
                         {team.losses}
                       </td>
+                      <td className="py-4 px-4 whitespace-nowrap text-sm text-center">
+                        <button 
+                          onClick={() => showTeamDetails(team)}
+                          className="text-blue-500 hover:text-blue-700 focus:outline-none"
+                        >
+                          <Info className="h-5 w-5" />
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -201,6 +218,48 @@ function App() {
           )}
         </div>
       </div>
+
+      {/* Modal de detalles del equipo */}
+      {selectedTeam && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg shadow-xl max-w-md w-full">
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-xl font-semibold flex items-center gap-2">
+                  <img
+                    src={selectedTeam.badge || "/playbypoint_logo.png"}
+                    alt={`${selectedTeam.name} badge`}
+                    className="w-8 h-8 object-contain"
+                  />
+                  {selectedTeam.name}
+                </h3>
+                <button
+                  onClick={() => setSelectedTeam(null)}
+                  className="text-gray-400 hover:text-gray-600 focus:outline-none"
+                >
+                  <X className="h-6 w-6" />
+                </button>
+              </div>
+              
+              <div className="text-center py-8">
+                <p className="text-gray-500">Información detallada del equipo</p>
+                <p className="mt-2 text-gray-700">
+                  Información del equipo.
+                </p>
+              </div>
+              
+              <div className="flex justify-end">
+                <button
+                  onClick={() => setSelectedTeam(null)}
+                  className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-none"
+                >
+                  Cerrar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
