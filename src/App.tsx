@@ -29,7 +29,7 @@ function App() {
         const data: Team[] = await response.json()
         setTeams(data)
         setLoading(false);
-        
+
       } catch (error) {
         console.error("Error fetching teams:", error)
         setLoading(false)
@@ -57,15 +57,44 @@ function App() {
               <span className="ml-2 text-gray-500">Cargando equipos...</span>
             </div>
           ) : (
-            <div className="text-gray-700">
-              <p>Equipos cargados: {teams.length}</p>
-              <ul className="mt-4">
-                {teams.map(team => (
-                  <li key={team.id} className="py-2 border-b border-gray-200">
-                    {team.name} - {team.points} puntos
-                  </li>
-                ))}
-              </ul>
+            <div className="overflow-x-auto">
+              <table className="min-w-full bg-white border border-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Pos
+                    </th>
+                    <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Equipo
+                    </th>
+                    <th className="py-3 px-4 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Puntos
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200">
+                  {teams.map((team) => (
+                    <tr key={team.id} className="hover:bg-gray-50">
+                      <td className="py-4 px-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        {team.id}
+                      </td>
+                      <td className="py-4 px-4 whitespace-nowrap text-sm text-gray-900">
+                        <div className="flex items-center">
+                          <img
+                            src={team.badge || "/playbypoint_logo.png"}
+                            alt={`${team.name} badge`}
+                            className="w-8 h-8 object-contain mr-3"
+                          />
+                          <span className="font-medium">{team.name}</span>
+                        </div>
+                      </td>
+                      <td className="py-4 px-4 whitespace-nowrap text-sm font-bold text-gray-900 text-center">
+                        {team.points}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           )}
         </div>
