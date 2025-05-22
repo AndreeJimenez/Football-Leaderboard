@@ -222,7 +222,7 @@ function App() {
       {/* Modal de detalles del equipo */}
       {selectedTeam && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg shadow-xl max-w-md w-full">
+          <div className="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-xl font-semibold flex items-center gap-2">
@@ -240,14 +240,64 @@ function App() {
                   <X className="h-6 w-6" />
                 </button>
               </div>
-              
-              <div className="text-center py-8">
-                <p className="text-gray-500">Información detallada del equipo</p>
-                <p className="mt-2 text-gray-700">
-                  Información del equipo.
+
+              <div className="grid grid-cols-2 gap-4 mb-4">
+                <div className="space-y-1">
+                  <p className="text-sm font-medium text-gray-500">Fundado en</p>
+                  <p className="text-sm">{selectedTeam.foundedYear}</p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-sm font-medium text-gray-500">Estadio</p>
+                  <p className="text-sm">{selectedTeam.stadium}</p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-sm font-medium text-gray-500">Entrenador</p>
+                  <p className="text-sm">{selectedTeam.coach}</p>
+                </div>
+              </div>
+
+              <div className="space-y-2 mb-4">
+                <p className="text-sm font-medium text-gray-500">Estadísticas</p>
+                <div className="grid grid-cols-4 gap-2 text-center">
+                  <div className="bg-gray-100 p-2 rounded-md">
+                    <p className="text-xs text-gray-500">P.Jugados</p>
+                    <p className="font-medium">{selectedTeam.wins + selectedTeam.losses + selectedTeam.draws}</p>
+                  </div>
+                  <div className="bg-gray-100 p-2 rounded-md">
+                    <p className="text-xs text-gray-500">Victorias</p>
+                    <p className="font-medium">{selectedTeam.wins}</p>
+                  </div>
+                  <div className="bg-gray-100 p-2 rounded-md">
+                    <p className="text-xs text-gray-500">Empates</p>
+                    <p className="font-medium">{selectedTeam.draws}</p>
+                  </div>
+                  <div className="bg-gray-100 p-2 rounded-md">
+                    <p className="text-xs text-gray-500">Derrotas</p>
+                    <p className="font-medium">{selectedTeam.losses}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-2 mb-6">
+                <p className="text-sm font-medium text-gray-500">Descripción</p>
+                <p className="text-sm text-gray-700">{selectedTeam.description}</p>
+              </div>
+
+              <div className="space-y-2 mb-6">
+                <p className="text-sm font-medium text-gray-500">Rendimiento</p>
+                <div className="h-4 bg-gray-200 rounded-full overflow-hidden">
+                  <div 
+                    className="h-full bg-blue-500" 
+                    style={{ 
+                      width: `${(selectedTeam.wins / (selectedTeam.wins + selectedTeam.draws + selectedTeam.losses)) * 100}%` 
+                    }}
+                  ></div>
+                </div>
+                <p className="text-xs text-gray-500 text-center">
+                  Porcentaje de victorias: {Math.round((selectedTeam.wins / (selectedTeam.wins + selectedTeam.draws + selectedTeam.losses)) * 100)}%
                 </p>
               </div>
-              
+
               <div className="flex justify-end">
                 <button
                   onClick={() => setSelectedTeam(null)}
