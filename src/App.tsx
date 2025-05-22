@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { ArrowUpDown } from 'lucide-react'
+import { ArrowUpDown, Search } from 'lucide-react'
 import './App.css'
 
 interface Team {
@@ -23,6 +23,7 @@ function App() {
   const [loading, setLoading] = useState(true)
   const [sortBy, setSortBy] = useState("points")
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc")
+  const [searchTerm, setSearchTerm] = useState("")
 
   // Cargar datos de equipos
   useEffect(() => {
@@ -42,8 +43,13 @@ function App() {
     fetchTeams()
   }, [])
 
+  // Filtrar equipos por término de búsqueda
+  const filteredTeams = teams.filter((team) => 
+    team.name.toLowerCase().includes(searchTerm.toLowerCase())
+  )
+
   // Ordenar equipos según criterio seleccionado
-  const sortedTeams = [...teams].sort((a, b) => {
+  const sortedTeams = [...filteredTeams].sort((a, b) => {
     const aValue = a[sortBy as keyof Team]
     const bValue = b[sortBy as keyof Team]
 
@@ -72,12 +78,23 @@ function App() {
         </h1>
         
         <div className="bg-white rounded-lg shadow-md p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-semibold text-gray-700">
-              Tabla de Posiciones
-            </h2>
+          <h2 className="text-xl font-semibold mb-4 text-gray-700">
+            Tabla de Posiciones
+          </h2>
+          
+          <div className="flex flex-col md:flex-row gap-4 mb-6">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Buscar equipo..."
+                className="pl-10 w-full p-2 border rounded-md"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
             
-            <div className="flex items-center space-x-2">
+            <div className="flex gap-2">
               <select 
                 className="p-2 border rounded-md text-sm"
                 value={sortBy}
@@ -106,6 +123,10 @@ function App() {
             <div className="flex items-center justify-center py-8">
               <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
               <span className="ml-2 text-gray-500">Cargando equipos...</span>
+            </div>
+          ) : sortedTeams.length === 0 ? (
+            <div className="text-center py-8 text-gray-500">
+              No se encontraron equipos que coincidan con la búsqueda.
             </div>
           ) : (
             <div className="overflow-x-auto">
