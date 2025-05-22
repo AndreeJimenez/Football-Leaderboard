@@ -45,6 +45,39 @@ function App() {
     fetchTeams()
   }, [])
 
+  // Cargar favoritos desde localStorage
+  useEffect(() => {
+    const storedFavorites = localStorage.getItem('footballFavorites')
+    if (storedFavorites) {
+      try {
+        const parsedFavorites = JSON.parse(storedFavorites)
+        setFavorites(parsedFavorites)
+      } catch (error) {
+        console.error('Error parsing stored favorites:', error)
+        setFavorites([])
+      }
+    }
+  }, [])
+
+  // Guardar favoritos en localStorage cuando cambien
+  useEffect(() => {
+    localStorage.setItem('footballFavorites', JSON.stringify(favorites))
+  }, [favorites])
+
+  // Alternar favoritos
+  const toggleFavorite = (team: Team) => {
+    if (favorites.some(fav => fav.id === team.id)) {
+      setFavorites(favorites.filter(fav => fav.id !== team.id))
+    } else {
+      setFavorites([...favorites, team])
+    }
+  }
+
+  // Verificar si un equipo es favorito
+  const isFavorite = (teamId: number) => {
+    return favorites.some(team => team.id === teamId)
+  }
+
   // Filtrar equipos por término de búsqueda
   const filteredTeams = teams.filter((team) => 
     team.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -75,20 +108,6 @@ function App() {
   // Mostrar detalles del equipo
   const showTeamDetails = (team: Team) => {
     setSelectedTeam(team)
-  }
-
-  // Alternar favoritos
-  const toggleFavorite = (team: Team) => {
-    if (favorites.some(fav => fav.id === team.id)) {
-      setFavorites(favorites.filter(fav => fav.id !== team.id))
-    } else {
-      setFavorites([...favorites, team])
-    }
-  }
-
-  // Verificar si un equipo es favorito
-  const isFavorite = (teamId: number) => {
-    return favorites.some(team => team.id === teamId)
   }
 
   return (
