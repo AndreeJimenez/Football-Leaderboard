@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 
 interface Team {
@@ -18,8 +18,26 @@ interface Team {
 }
 
 function App() {
-  const [teams, setTeams] = useState([])
+  const [teams, setTeams] = useState<Team[]>([])
   const [loading, setLoading] = useState(true)
+
+  // Cargar datos de equipos
+  useEffect(() => {
+    const fetchTeams = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/teams')
+        const data: Team[] = await response.json()
+        setTeams(data)
+        setLoading(false);
+        
+      } catch (error) {
+        console.error("Error fetching teams:", error)
+        setLoading(false)
+      }
+    }
+
+    fetchTeams()
+  }, [])
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -35,11 +53,19 @@ function App() {
           
           {loading ? (
             <div className="flex items-center justify-center py-8">
-              <div className="text-gray-500">Cargando equipos...</div>
+              <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
+              <span className="ml-2 text-gray-500">Cargando equipos...</span>
             </div>
           ) : (
-            <div className="text-gray-500">
-              Aquí irá la tabla de equipos
+            <div className="text-gray-700">
+              <p>Equipos cargados: {teams.length}</p>
+              <ul className="mt-4">
+                {teams.map(team => (
+                  <li key={team.id} className="py-2 border-b border-gray-200">
+                    {team.name} - {team.points} puntos
+                  </li>
+                ))}
+              </ul>
             </div>
           )}
         </div>
