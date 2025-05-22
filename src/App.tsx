@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { ArrowUpDown, Search, Info, X } from 'lucide-react'
+import { ArrowUpDown, Search, Info, X, Star, StarOff } from 'lucide-react'
 import './App.css'
 
 interface Team {
@@ -25,6 +25,7 @@ function App() {
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc")
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedTeam, setSelectedTeam] = useState<Team | null>(null)
+  const [favorites, setFavorites] = useState<Team[]>([])
 
   // Cargar datos de equipos
   useEffect(() => {
@@ -74,6 +75,20 @@ function App() {
   // Mostrar detalles del equipo
   const showTeamDetails = (team: Team) => {
     setSelectedTeam(team)
+  }
+
+  // Alternar favoritos
+  const toggleFavorite = (team: Team) => {
+    if (favorites.some(fav => fav.id === team.id)) {
+      setFavorites(favorites.filter(fav => fav.id !== team.id))
+    } else {
+      setFavorites([...favorites, team])
+    }
+  }
+
+  // Verificar si un equipo es favorito
+  const isFavorite = (teamId: number) => {
+    return favorites.some(team => team.id === teamId)
   }
 
   return (
@@ -172,6 +187,9 @@ function App() {
                     <th className="py-3 px-4 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Detalles
                     </th>
+                    <th className="py-3 px-4 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Fav
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
@@ -208,6 +226,18 @@ function App() {
                           className="text-blue-500 hover:text-blue-700 focus:outline-none"
                         >
                           <Info className="h-5 w-5" />
+                        </button>
+                      </td>
+                      <td className="py-4 px-4 whitespace-nowrap text-sm text-center">
+                        <button 
+                          onClick={() => toggleFavorite(team)}
+                          className="focus:outline-none"
+                        >
+                          {isFavorite(team.id) ? (
+                            <Star className="h-5 w-5 text-yellow-400 fill-yellow-400" />
+                          ) : (
+                            <StarOff className="h-5 w-5 text-gray-400" />
+                          )}
                         </button>
                       </td>
                     </tr>
@@ -298,7 +328,24 @@ function App() {
                 </p>
               </div>
 
-              <div className="flex justify-end">
+              <div className="flex justify-between">
+                <button
+                  onClick={() => toggleFavorite(selectedTeam)}
+                  className="flex items-center gap-1 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none"
+                >
+                  {isFavorite(selectedTeam.id) ? (
+                    <>
+                      <Star className="h-4 w-4 text-yellow-400 fill-yellow-400" />
+                      <span>Quitar de favoritos</span>
+                    </>
+                  ) : (
+                    <>
+                      <Star className="h-4 w-4" />
+                      <span>Agregar a favoritos</span>
+                    </>
+                  )}
+                </button>
+                
                 <button
                   onClick={() => setSelectedTeam(null)}
                   className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-none"
