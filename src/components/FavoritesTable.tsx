@@ -54,6 +54,7 @@ export const FavoritesTable = ({
                           src={team.badge || "/playbypoint_logo.png"}
                           alt={`${team.name} badge`}
                           className="w-8 h-8 object-contain mr-3"
+                          onClick={() => showTeamDetails(team)}
                         />
                         <span className="font-medium">{team.name}</span>
                       </div>
