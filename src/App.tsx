@@ -7,6 +7,8 @@ import { TeamDetailsModal } from './components/TeamDetailsModal'
 import { Notification } from './components/Notification'
 
 function App() {
+  const API_URL = import.meta.env.PROD ? '/api' : 'http://localhost:3001'
+
   const [teams, setTeams] = useState<Team[]>([])
   const [loading, setLoading] = useState(true)
   const [sortBy, setSortBy] = useState("points")
@@ -21,7 +23,7 @@ function App() {
   useEffect(() => {
     const fetchTeams = async () => {
       try {
-        const response = await fetch('http://localhost:3000/teams')
+        const response = await fetch(`${API_URL}/teams`)
         const data: Team[] = await response.json()
         setTeams(data)
       } catch (error) {
@@ -32,7 +34,7 @@ function App() {
     }
 
     fetchTeams()
-  }, [])
+  }, [API_URL])
 
   const toggleFavorite = (team: Team) => {
     const isAlreadyFavorite = favorites.some(f => f.id === team.id)
