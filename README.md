@@ -18,7 +18,7 @@ Esta aplicación muestra una tabla de posiciones (leaderboard) para una liga de 
 - TypeScript
 - TailwindCSS para estilos
 - Lucide React para iconos
-- [https://github.com/typicode/json-server](json-server)json-server para simular la API
+- json-server para simular la API
 
 ## Configuración del proyecto
 
@@ -30,38 +30,40 @@ Esta aplicación muestra una tabla de posiciones (leaderboard) para una liga de 
 ### Instalación
 
 1. Clona este repositorio:
-\`\`\`bash
+```bash
 git clone https://github.com/AndreeJimenez/Football-Leaderboard.git
 cd Football-Leaderboard
-\`\`\`
+```
+
 
 2. Instala las dependencias:
-\`\`\`bash
+```bash
 npm install
-# o
+- o -
 yarn install
-\`\`\`
+```
 
 3. Inicia el servidor de desarrollo:
-\`\`\`bash
+```bash
 npm run dev
-# o
+- o -
 yarn dev
-\`\`\`
+```
 
 1. En una terminal separada, inicia json-server:
-\`\`\`bash
+```bash
 npm run server
-# o
+- o -
 yarn server
-\`\`\`
+```
 
 La aplicación estará disponible en [http://localhost:5173](http://localhost:5173).
-El servidor estará disponible en [http://localhost:3000](http://localhost:3000).
+
+El servidor estará disponible en [http://localhost:3000](http://localhost:3001).
 
 ## Estructura del proyecto
 
-\`\`\`
+```
 ├── public/              # Archivos estáticos
 ├── src/                 # Código fuente
 │   ├── __tests__/       # Tests unitarios
@@ -80,7 +82,7 @@ El servidor estará disponible en [http://localhost:3000](http://localhost:3000)
 ├── tailwind.config.js   # Configuración de Tailwind CSS
 ├── vite.config.js       # Configuración de Vite
 └── README.md            # Documentación del proyecto
-\`\`\`
+```
 
 ## Decisiones técnicas
 
@@ -93,10 +95,14 @@ El servidor estará disponible en [http://localhost:3000](http://localhost:3000)
 
 ### Persistencia de datos
 
-- Los favoritos se guardan en localStorage para mantener la preferencia del usuario entre sesiones.
-- En un entorno de producción, esto podría mejorarse con una base de datos real y autenticación de usuarios.
+- **localStorage**: Almacenamiento local para mantener favoritos entre sesiones.
+- **json-server**: API mock para simular un backend real.
 
-### Responsividad
 
-- Diseño mobile-first con TailwindCSS
-- Adaptación de la tabla para diferentes tamaños de pantalla
+### Experiencia de usuario
+
+- **Feedback visual**: Notificaciones, animaciones y transiciones para mejorar la experiencia.
+- **Diseño responsivo**: Adaptación a diferentes tamaños de pantalla.
+- **Accesibilidad**: Uso de atributos ARIA y enfoque en la accesibilidad.
+
+Playbypoint :green_heart:
