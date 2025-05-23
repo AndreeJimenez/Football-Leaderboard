@@ -59,7 +59,7 @@ yarn server
 
 La aplicación estará disponible en [http://localhost:5173](http://localhost:5173).
 
-El servidor estará disponible en [http://localhost:3000](http://localhost:3001).
+El servidor estará disponible en [http://localhost:3001](http://localhost:3001).
 
 ## Estructura del proyecto
 
