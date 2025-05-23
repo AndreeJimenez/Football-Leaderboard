@@ -29,6 +29,14 @@ body {
   width: 100%;
 }
 
+.table-cell-custom {
+  @apply py-4 px-4 whitespace-nowrap text-sm;
+}
+
+.table-header-custom {
+  @apply py-3 px-4 text-xs font-medium text-gray-500 uppercase tracking-wider;
+}
+
 /* Animaciones y transiciones */
 .transition-all {
   transition-property: all;

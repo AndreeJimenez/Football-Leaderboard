@@ -105,33 +105,33 @@ export const TeamTable = ({
             <table className="min-w-full divide-y divide-gray-200 border border-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pos</th>
-                  <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Equipo</th>
-                  <th className="py-3 px-4 text-center text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                  <th className="text-left table-header-custom">Pos</th>
+                  <th className="text-left table-header-custom">Equipo</th>
+                  <th className="text-center table-header-custom cursor-pointer"
                     onClick={() => setSortBy('points')}>
                     Puntos {sortBy === 'points' && (sortOrder === 'asc' ? '↑' : '↓')}
                   </th>
-                  <th className="py-3 px-4 text-center text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                  <th className="text-center table-header-custom cursor-pointer"
                     onClick={() => setSortBy('wins')}>
                     Victorias {sortBy === 'wins' && (sortOrder === 'asc' ? '↑' : '↓')}
                   </th>
-                  <th className="py-3 px-4 text-center text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                  <th className="text-center table-header-custom cursor-pointer"
                     onClick={() => setSortBy('draws')}>
                     Empates {sortBy === 'draws' && (sortOrder === 'asc' ? '↑' : '↓')}
                   </th>
-                  <th className="py-3 px-4 text-center text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                  <th className="text-center table-header-custom cursor-pointer"
                     onClick={() => setSortBy('losses')}>
                     Derrotas {sortBy === 'losses' && (sortOrder === 'asc' ? '↑' : '↓')}
                   </th>
-                  <th className="py-3 px-4 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Fav</th>
-                  <th className="py-3 px-4 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Info</th>
+                  <th className="text-center table-header-custom">Fav</th>
+                  <th className="text-center table-header-custom">Info</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
                 {sortedTeams.map((team) => (
                   <tr key={team.id} className="hover:bg-gray-50">
-                    <td className="py-4 px-4 whitespace-nowrap text-sm font-medium text-gray-900">{team.id}</td>
-                    <td className="py-4 px-4 whitespace-nowrap text-sm text-gray-900">
+                    <td className="table-cell-custom font-medium text-gray-900">{team.id}</td>
+                    <td className="table-cell-custom text-gray-900">
                       <div className="flex items-center">
                         <img
                           src={team.badge || "/playbypoint_logo.png"}
@@ -142,11 +142,11 @@ export const TeamTable = ({
                         <span className="font-medium">{team.name}</span>
                       </div>
                     </td>
-                    <td className="py-4 px-4 whitespace-nowrap text-sm font-bold text-gray-900 text-center">{team.points}</td>
-                    <td className="py-4 px-4 whitespace-nowrap text-sm text-gray-500 text-center">{team.wins}</td>
-                    <td className="py-4 px-4 whitespace-nowrap text-sm text-gray-500 text-center">{team.draws}</td>
-                    <td className="py-4 px-4 whitespace-nowrap text-sm text-gray-500 text-center">{team.losses}</td>
-                    <td className="py-4 px-4 whitespace-nowrap text-sm text-center">
+                    <td className="table-cell-custom font-bold text-gray-900 text-center">{team.points}</td>
+                    <td className="table-cell-custom text-gray-500 text-center">{team.wins}</td>
+                    <td className="table-cell-custom text-gray-500 text-center">{team.draws}</td>
+                    <td className="table-cell-custom text-gray-500 text-center">{team.losses}</td>
+                    <td className="table-cell-custom text-center">
                       <button onClick={() => toggleFavorite(team)} className="focus:outline-none">
                         {isFavorite(team.id) ? (
                           <Star className="h-5 w-5 text-yellow-400 fill-yellow-400" />
@@ -155,7 +155,7 @@ export const TeamTable = ({
                         )}
                       </button>
                     </td>
-                    <td className="py-4 px-4 whitespace-nowrap text-sm text-center">
+                    <td className="table-cell-custom text-center">
                       <button
                         onClick={() => showTeamDetails(team)}
                         className="text-blue-500 hover:text-blue-700 focus:outline-none"

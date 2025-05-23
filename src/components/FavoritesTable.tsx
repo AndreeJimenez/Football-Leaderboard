@@ -34,21 +34,21 @@ export const FavoritesTable = ({
             <table className="min-w-full divide-y divide-gray-200 border border-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pos</th>
-                  <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Equipo</th>
-                  <th className="py-3 px-4 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Puntos</th>
-                  <th className="py-3 px-4 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Victorias</th>
-                  <th className="py-3 px-4 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Empates</th>
-                  <th className="py-3 px-4 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Derrotas</th>
-                  <th className="py-3 px-4 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Quitar</th>
-                  <th className="py-3 px-4 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Info</th>
+                  <th className="text-left table-header-custom">Pos</th>
+                  <th className="text-left table-header-custom">Equipo</th>
+                  <th className="text-center table-header-custom">Puntos</th>
+                  <th className="text-center table-header-custom">Victorias</th>
+                  <th className="text-center table-header-custom">Empates</th>
+                  <th className="text-center table-header-custom">Derrotas</th>
+                  <th className="text-center table-header-custom">Quitar</th>
+                  <th className="text-center table-header-custom">Info</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
                 {favorites.map((team) => (
                   <tr key={team.id} className="hover:bg-gray-50">
-                    <td className="py-4 px-4 whitespace-nowrap text-sm font-medium text-gray-900">{team.id}</td>
-                    <td className="py-4 px-4 whitespace-nowrap text-sm text-gray-900">
+                    <td className="table-cell-custom font-medium text-gray-900">{team.id}</td>
+                    <td className="table-cell-custom text-gray-900">
                       <div className="flex items-center">
                         <img
                           src={team.badge || "/playbypoint_logo.png"}
@@ -59,16 +59,16 @@ export const FavoritesTable = ({
                         <span className="font-medium">{team.name}</span>
                       </div>
                     </td>
-                    <td className="py-4 px-4 whitespace-nowrap text-sm font-bold text-gray-900 text-center">{team.points}</td>
-                    <td className="py-4 px-4 whitespace-nowrap text-sm text-gray-500 text-center">{team.wins}</td>
-                    <td className="py-4 px-4 whitespace-nowrap text-sm text-gray-500 text-center">{team.draws}</td>
-                    <td className="py-4 px-4 whitespace-nowrap text-sm text-gray-500 text-center">{team.losses}</td>
-                    <td className="py-4 px-4 whitespace-nowrap text-sm text-center">
+                    <td className="table-cell-custom font-bold text-gray-900 text-center">{team.points}</td>
+                    <td className="table-cell-custom text-gray-500 text-center">{team.wins}</td>
+                    <td className="table-cell-custom text-gray-500 text-center">{team.draws}</td>
+                    <td className="table-cell-custom text-gray-500 text-center">{team.losses}</td>
+                    <td className="table-cell-custom text-center">
                       <button onClick={() => toggleFavorite(team)} className="text-yellow-400 hover:text-gray-400 focus:outline-none">
                         <Star className="h-5 w-5 fill-yellow-400" />
                       </button>
                     </td>
-                    <td className="py-4 px-4 whitespace-nowrap text-sm text-center">
+                    <td className="table-cell-custom text-center">
                       <button onClick={() => showTeamDetails(team)} className="text-blue-500 hover:text-blue-700 focus:outline-none">
                         <Info className="h-5 w-5" />
                       </button>
