@@ -1,54 +1,102 @@
-# React + TypeScript + Vite
+# Leaderboard para Liga de Fútbol
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Esta aplicación muestra una tabla de posiciones (leaderboard) para una liga de fútbol, permitiendo a los usuarios ver estadísticas de equipos, filtrar y ordenar la tabla, y guardar equipos favoritos.
 
-Currently, two official plugins are available:
+## Características
+- **Visualización de datos**: Muestra equipos con sus registros de victorias, derrotas, empates y puntos.
+- **Ordenación flexible**: Permite ordenar la tabla por diferentes métricas (victorias, derrotas, empates y puntos).
+- **Filtrado por nombre**: Búsqueda rápida de equipos por nombre.
+- **Sistema de favoritos**: Marca equipos como favoritos y accede a ellos en una vista separada.
+- **Detalles de equipo**: Visualiza información detallada de cada equipo al hacer clic en su escudo o botón de información.
+- **Persistencia de datos**: Los favoritos se guardan en localStorage para mantenerlos entre sesiones.
+- **Diseño responsivo**: Experiencia optimizada tanto para dispositivos móviles como de escritorio.
+- **Feedback visual**: Notificaciones y animaciones para mejorar la experiencia de usuario.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tecnologías utilizadas
 
-## Expanding the ESLint configuration
+- React.js con Vite
+- TypeScript
+- TailwindCSS para estilos
+- Lucide React para iconos
+- [https://github.com/typicode/json-server](json-server)json-server para simular la API
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Configuración del proyecto
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+### Requisitos previos
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- Node.js
+- npm o yarn
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Instalación
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+1. Clona este repositorio:
+\`\`\`bash
+git clone https://github.com/AndreeJimenez/Football-Leaderboard.git
+cd Football-Leaderboard
+\`\`\`
+
+2. Instala las dependencias:
+\`\`\`bash
+npm install
+# o
+yarn install
+\`\`\`
+
+3. Inicia el servidor de desarrollo:
+\`\`\`bash
+npm run dev
+# o
+yarn dev
+\`\`\`
+
+1. En una terminal separada, inicia json-server:
+\`\`\`bash
+npm run server
+# o
+yarn server
+\`\`\`
+
+La aplicación estará disponible en [http://localhost:5173](http://localhost:5173).
+El servidor estará disponible en [http://localhost:3000](http://localhost:3000).
+
+## Estructura del proyecto
+
+\`\`\`
+├── public/              # Archivos estáticos
+├── src/                 # Código fuente
+│   ├── __tests__/       # Tests unitarios
+│   ├── components/      # Componentes reutilizables
+│   │   ├── FavoritesTable.tsx    # Tabla de equipos favoritos
+│   │   ├── Notification.tsx      # Componente de notificaciones
+│   │   ├── TeamDetailsModal.tsx  # Modal de detalles de equipo
+│   │   └── TeamTable.tsx         # Tabla principal de los equipos
+│   ├── hooks/                    # Custom hooks
+│   │   ├── useFavorites.tsx      # Almacenamiento de favoritos
+│   ├── types.ts/        # Definiciones de tipos TypeScript
+│   ├── App.tsx          # Componente principal
+│   ├── index.css        # Estilos globales y Tailwind
+│   └── main.tsx         # Punto de entrada
+├── db.json              # Base de datos para json-server
+├── tailwind.config.js   # Configuración de Tailwind CSS
+├── vite.config.js       # Configuración de Vite
+└── README.md            # Documentación del proyecto
+\`\`\`
+
+## Decisiones técnicas
+
+### Arquitectura
+
+- **Vite + React**: Elegido por su velocidad de desarrollo y optimización de producción.
+- **TypeScript**: Para tipado estático y mejor experiencia de desarrollo.
+- **Tailwind CSS**: Para estilos rápidos y consistentes.
+- **Estado local**: Para esta aplicación, el estado local de React es suficiente. En una aplicación más grande, consideraría usar React Context o una librería de gestión de estado como Redux.
+
+### Persistencia de datos
+
+- Los favoritos se guardan en localStorage para mantener la preferencia del usuario entre sesiones.
+- En un entorno de producción, esto podría mejorarse con una base de datos real y autenticación de usuarios.
+
+### Responsividad
+
+- Diseño mobile-first con TailwindCSS
+- Adaptación de la tabla para diferentes tamaños de pantalla
