@@ -147,7 +147,7 @@ export const TeamTable = ({
                     <td className="table-cell-custom text-gray-500 text-center">{team.draws}</td>
                     <td className="table-cell-custom text-gray-500 text-center">{team.losses}</td>
                     <td className="table-cell-custom text-center">
-                      <button onClick={() => toggleFavorite(team)} className="focus:outline-none">
+                      <button aria-label={`toggle-favorite-${team.id}`} onClick={() => toggleFavorite(team)} className="focus:outline-none">
                         {isFavorite(team.id) ? (
                           <Star className="h-5 w-5 text-yellow-400 fill-yellow-400" />
                         ) : (
@@ -158,6 +158,7 @@ export const TeamTable = ({
                     <td className="table-cell-custom text-center">
                       <button
                         onClick={() => showTeamDetails(team)}
+                        aria-label={`show-details-${team.id}`}
                         className="text-blue-500 hover:text-blue-700 focus:outline-none"
                       >
                         <Info className="h-5 w-5" />
