@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { ArrowUpDown, Search, Info, X, Star, StarOff } from 'lucide-react'
-import './App.css'
 
 interface Team {
   id: number
@@ -28,6 +27,7 @@ function App() {
   const [favorites, setFavorites] = useState<Team[]>([])
   const [activeTab, setActiveTab] = useState("leaderboard")
   const [lastAction, setLastAction] = useState<{message: string, type: 'success' | 'error' | 'info'} | null>(null)
+  const [hasRestoredFavorites, setHasRestoredFavorites] = useState(false)
 
   // Cargar datos de equipos
   useEffect(() => {
@@ -49,22 +49,31 @@ function App() {
 
   // Cargar favoritos desde localStorage
   useEffect(() => {
-    const storedFavorites = localStorage.getItem('footballFavorites')
-    if (storedFavorites) {
-      try {
-        const parsedFavorites = JSON.parse(storedFavorites)
-        setFavorites(parsedFavorites)
-      } catch (error) {
-        console.error('Error parsing stored favorites:', error)
-        setFavorites([])
+    if (teams.length > 0) {
+      const storedFavorites = localStorage.getItem('footballFavorites')
+      if (storedFavorites) {
+        try {
+          const favoriteIds = JSON.parse(storedFavorites) as number[]
+          const restoredFavorites = teams.filter(team => favoriteIds.includes(team.id))
+          setFavorites(restoredFavorites)
+        } catch (error) {
+          console.error('Error parsing stored favorites:', error)
+        }
+      } else {
+        console.log("No se encontraron favoritos en localStorage")
       }
-    }
-  }, [])
 
-  // Guardar favoritos en localStorage cuando cambien
+      setHasRestoredFavorites(true)
+    } 
+  }, [teams])
+
+  // Guardar favoritos en localStorage
   useEffect(() => {
-    localStorage.setItem('footballFavorites', JSON.stringify(favorites))
-  }, [favorites])
+    if (hasRestoredFavorites) {
+      const favoriteIds = favorites.map(team => team.id)
+      localStorage.setItem('footballFavorites', JSON.stringify(favoriteIds))
+    }
+  }, [favorites, hasRestoredFavorites])
 
   // Alternar favoritos
   const toggleFavorite = (team: Team) => {
@@ -211,19 +220,21 @@ function App() {
               </div>
               
               <div className="flex gap-2 flex-wrap md:flex-nowrap">
-                <select 
-                  className="p-2 border border-gray-200 rounded-md text-sm grow md:grow-0"
-                  value={sortBy}
-                  onChange={(e) => {
-                    setSortBy(e.target.value)
-                    setSortOrder("desc")
-                  }}
-                >
-                  <option value="points">Puntos</option>
-                  <option value="wins">Victorias</option>
-                  <option value="losses">Derrotas</option>
-                  <option value="draws">Empates</option>
-                </select>
+                <div className="py-2 px-4 border border-gray-200 rounded-md text-sm grow md:grow-0">
+                  <select 
+                    className="pr-10"
+                    value={sortBy}
+                    onChange={(e) => {
+                      setSortBy(e.target.value)
+                      setSortOrder("desc")
+                    }}
+                  >
+                    <option value="points">Puntos</option>
+                    <option value="wins">Victorias</option>
+                    <option value="losses">Derrotas</option>
+                    <option value="draws">Empates</option>
+                  </select>
+                </div>
                 
                 <button 
                   className="flex items-center justify-center gap-1 p-2 border border-gray-200 rounded-md hover:bg-gray-50 text-sm grow md:grow-0"
