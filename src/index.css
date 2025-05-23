@@ -29,6 +29,39 @@ body {
   width: 100%;
 }
 
+/* Animaciones y transiciones */
+.transition-all {
+  transition-property: all;
+}
+
+.transition-colors {
+  transition-property: background-color, border-color, color, fill, stroke;
+}
+
+.transition-opacity {
+  transition-property: opacity;
+}
+
+.transition-transform {
+  transition-property: transform;
+}
+
+.duration-200 {
+  transition-duration: 200ms;
+}
+
+.duration-300 {
+  transition-duration: 300ms;
+}
+
+.hover\:scale-110:hover {
+  transform: scale(1.1);
+}
+
+.hover\:scale-125:hover {
+  transform: scale(1.25);
+}
+
 /* Estilos para dispositivos móviles */
 @media (max-width: 640px) {
   table {

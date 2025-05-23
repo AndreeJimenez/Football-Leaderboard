@@ -27,6 +27,7 @@ function App() {
   const [selectedTeam, setSelectedTeam] = useState<Team | null>(null)
   const [favorites, setFavorites] = useState<Team[]>([])
   const [activeTab, setActiveTab] = useState("leaderboard")
+  const [lastAction, setLastAction] = useState<{message: string, type: 'success' | 'error' | 'info'} | null>(null)
 
   // Cargar datos de equipos
   useEffect(() => {
@@ -69,9 +70,22 @@ function App() {
   const toggleFavorite = (team: Team) => {
     if (favorites.some(fav => fav.id === team.id)) {
       setFavorites(favorites.filter(fav => fav.id !== team.id))
+      setLastAction({
+        message: `${team.name} eliminado de favoritos`,
+        type: 'info'
+      })
     } else {
       setFavorites([...favorites, team])
+      setLastAction({
+        message: `${team.name} añadido a favoritos`,
+        type: 'success'
+      })
     }
+    
+    // Limpiar el mensaje después de 3 segundos
+    setTimeout(() => {
+      setLastAction(null)
+    }, 3000)
   }
 
   // Verificar si un equipo es favorito
@@ -117,6 +131,37 @@ function App() {
         <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
           Liga de Fútbol - Tabla de Posiciones
         </h1>
+
+        {lastAction && (
+          <div className={`fixed top-4 right-4 max-w-xs bg-white rounded-lg shadow-lg p-4 border-l-4 z-50 transform transition-transform duration-300 ${
+            lastAction.type === 'success' ? 'border-green-500' : 
+            lastAction.type === 'error' ? 'border-red-500' : 'border-blue-500'
+          }`}>
+            <div className="flex items-center">
+              <div className={`flex-shrink-0 ${
+                lastAction.type === 'success' ? 'text-green-500' : 
+                lastAction.type === 'error' ? 'text-red-500' : 'text-blue-500'
+              }`}>
+                {lastAction.type === 'success' ? (
+                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                ) : lastAction.type === 'error' ? (
+                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                ) : (
+                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                )}
+              </div>
+              <div className="ml-3">
+                <p className="text-sm text-gray-700">{lastAction.message}</p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Tabs */}
         <div className="mb-8">
@@ -300,7 +345,7 @@ function App() {
             )}
           </div>
         ) : (
-          <div className="bg-white rounded-lg shadow-md p-4 md:p-6">
+          <div className="bg-white rounded-lg shadow-md p-4 md:p-6 transition-all duration-300">
             <div className="flex justify-between items-center mb-4 flex-wrap gap-2">
               <h2 className="text-xl font-semibold text-gray-700">
                 Equipos Favoritos
@@ -404,8 +449,15 @@ function App() {
 
       {/* Modal de detalles del equipo */}
       {selectedTeam && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-2 md:p-4 z-50">
-          <div className="bg-white rounded-lg shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-2 md:p-4 z-50 transition-opacity duration-300" 
+          onClick={(e) => {
+            // Cerrar el modal al hacer clic fuera de él
+            if (e.target === e.currentTarget) {
+              setSelectedTeam(null)
+            }
+          }}
+          >
+          <div className="bg-white rounded-lg shadow-xl w-full max-w-md max-h-[90vh] overflow-y-autotransform transition-all duration-300">
             <div className="p-4 md:p-6">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-xl font-semibold flex items-center gap-2">
@@ -481,10 +533,10 @@ function App() {
                 </p>
               </div>
 
-              <div className="flex flex-col sm:flex-row justify-between gap-2">
+              <div className="flex flex-col sm:flex-row justify-between gap-2 mt-6">
                 <button
                   onClick={() => toggleFavorite(selectedTeam)}
-                  className="flex items-center justify-center gap-1 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-hidden"
+                  className="flex items-center justify-center gap-1 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-hiddentransition-colors duration-200"
                 >
                   {isFavorite(selectedTeam.id) ? (
                     <>
@@ -501,7 +553,7 @@ function App() {
                 
                 <button
                   onClick={() => setSelectedTeam(null)}
-                  className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-hidden"
+                  className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-hidden transition-colors duration-200"
                 >
                   Cerrar
                 </button>
