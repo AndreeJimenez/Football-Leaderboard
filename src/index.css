@@ -15,18 +15,29 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
   background-color: #f3f4f6;
   color: #111827;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 #root {
   width: 100%;
+}
+
+/* Estilos para dispositivos móviles */
+@media (max-width: 640px) {
+  table {
+    font-size: 0.875rem;
+  }
+  
+  th, td {
+    padding: 0.5rem;
+  }
 }
 
 @media (prefers-color-scheme: light) {
