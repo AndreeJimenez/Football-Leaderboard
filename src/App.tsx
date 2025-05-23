@@ -34,12 +34,19 @@ function App() {
     const fetchTeams = async () => {
       try {
         const response = await fetch('http://localhost:3000/teams')
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status} ${response.statusText}`)
+        }
+
         const data: Team[] = await response.json()
         setTeams(data)
-        setLoading(false);
-
       } catch (error) {
         console.error("Error fetching teams:", error)
+        setLastAction({
+          message: "Error al cargar los equipos. Intente nuevamente.",
+          type: 'error'
+        })
+      } finally {
         setLoading(false)
       }
     }
